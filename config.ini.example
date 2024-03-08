@@ -2,9 +2,9 @@
 Host = localhost
 Port = 8086
 UseSSL = False
-Token = "MySuperSecretToken"
-Org = "MyOrganization"
-Bucket = "MyBucket"
+Token = MySuperSecretToken
+Org = MyOrganization
+Bucket = MyBucket
 
 [Node]
 NodeNumber = 2530
