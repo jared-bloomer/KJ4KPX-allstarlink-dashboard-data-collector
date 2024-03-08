@@ -5,6 +5,9 @@ Username = MyUser
 Password = MyPassword
 UseSSL = False
 VerifySSL = False
+Token = "MySuperSecretToken"
+Org = "MyOrganization"
+Bucket = "MyBucket"
 
 [Node]
 NodeNumber = 2530
