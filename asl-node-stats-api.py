@@ -21,7 +21,6 @@ def getNodeStats(config):
 def main():
     config = loadConfigs()
     stats = getNodeStats(config)
-    print(stats['stats']['data'])
 
     if config['influxdb']['UseSSL'] is True:
         influxProtocol="https://"
@@ -31,10 +30,14 @@ def main():
     client = influxdb_client.InfluxDBClient(url=influxProtocol+config['influxdb']['Host']+":"+config['influxdb']['Port'], token=config['influxdb']['Token'], org=config['influxdb']['Org'])
     query_api = client.query_api()
     write_api = client.write_api(write_options=SYNCHRONOUS)
-    
+
     totalKeyUps = Point("totalKeyUps").tag("totalkeyups", stats['stats']['data']['totalkeyups']).field("totalKeyUps", int(stats['stats']['data']['totalkeyups'])).time(datetime.now(tz=timezone.utc), WritePrecision.MS)
+    totalTXTime = Point("totalTXTime").tag("totalTXTime", stats['stats']['data']['totaltxtime']).field("totalTXTime", int(stats['stats']['data']['totaltxtime'])).time(datetime.now(tz=timezone.utc), WritePrecision.MS)
+    totalKerchunks = Point("totalKerchunks").tag("totalKerchunks", stats['stats']['data']['totalkerchunks']).field("totalKerchunks", int(stats['stats']['data']['totalkerchunks'])).time(datetime.now(tz=timezone.utc), WritePrecision.MS)
 
     write_api.write(bucket=""+config['influxdb']['Bucket']+"", record=totalKeyUps)
+    write_api.write(bucket=""+config['influxdb']['Bucket']+"", record=totalTXTime)
+    write_api.write(bucket=""+config['influxdb']['Bucket']+"", record=totalKerchunks)
 
 if __name__ == "__main__":
   try:
